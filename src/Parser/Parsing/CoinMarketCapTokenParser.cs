@@ -1,5 +1,4 @@
-﻿using System.Text;
-using Microsoft.Playwright;
+﻿using Microsoft.Playwright;
 using Parser.Models;
 
 namespace Parser.Parsing;
@@ -86,38 +85,16 @@ public sealed class CoinMarketCapTokenParser(
                     
                     var price = await row.Locator("td.cmc-table__cell--sort-by__price")
                         .InnerTextAsync();
-            
-                    var cleanedPrice = new StringBuilder(price)
-                        .Replace("$", "")
-                        .Replace(",", "")
-                        .Replace(".", ",")
-                        .ToString();
-            
-                    var cleanedMarketCap = new StringBuilder(marketCap)
-                        .Replace("$", "")
-                        .Replace(",", "")
-                        .ToString();
-            
-                    var cleanedVolume24H = new StringBuilder(volume24H)
-                        .Replace('\u00A0', ' ')
-                        .Replace('\u202F', ' ')
-                        .Replace("$", "")
-                        .Replace(" ", "")
-                        .ToString();
-            
-                    var cleanedPercentChange24H = new StringBuilder(percentChange24H)
-                        .Replace("%", "")
-                        .ToString();
 
                     rawTokens.Add(new RawToken()
                     {
                         Rank = rank,
                         Name = name,
                         Symbol = symbol,
-                        Price = cleanedPrice,
-                        MarketCap = cleanedMarketCap,
-                        Volume24H = cleanedVolume24H,
-                        PercentChange24H = cleanedPercentChange24H,
+                        Price = price,
+                        MarketCap = marketCap,
+                        Volume24H = volume24H,
+                        PercentChange24H = percentChange24H,
                     });
 
                     await row.EvaluateAsync("el => el.classList.add('processed')");
