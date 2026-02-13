@@ -11,28 +11,28 @@ public sealed class TokenManager(AppDbContext context) : ITokenManager
 {
     private readonly AppDbContext _context = context;
 
-    public async ValueTask<PageableResult<TokenEntity>> GetByQueryAsync(
+    public async ValueTask<List<TokenEntity>> GetByQueryAsync(
         TokenFilter filter,
-        int offset, 
-        int limit, 
+        int offset,
+        int limit,
         string orderBy,
+        string? searchAfterToken,
         CancellationToken cancellationToken = default)
     {
-        var totalItems = await _context.Tokens.CountAsync(cancellationToken);
-        var items = await _context.Tokens.AsQueryable()
-            .Filter(filter)
-            .ApplyOrdering(orderBy)
-            .Skip(offset)
-            .Take(limit)
-            .ToListAsync(cancellationToken);
-        
-        return new PageableResult<TokenEntity>()
-        {
-            Offset =  offset,
-            Limit = limit,
-            Items = items,
-            TotalItems = totalItems
-        };
+        var query = _context.Tokens.AsQueryable().Filter(filter);
+
+        if (!string.IsNullOrEmpty(searchAfterToken))
+            query = query
+                .OrderBy(x => x.Name)
+                .Where(x => string.Compare(x.Name, searchAfterToken) > 0)
+                .Take(limit);
+        else
+            query = query
+                .ApplyOrdering(orderBy)
+                .Skip(offset)
+                .Take(limit);
+
+        return await query.ToListAsync(cancellationToken);
     }
 
     public async ValueTask<Result> CreateAsync(IEnumerable<TokenEntity> tokens,
