@@ -2,20 +2,17 @@
 
 namespace Parser.Results;
 
-public sealed class PageableResult<T> where T : new()
+public sealed class PageableResult<T> where T : notnull
 {
-    [JsonPropertyName("items")]
-    public IEnumerable<T> Items { get; set; } = new List<T>();
+    [JsonPropertyName("offset")]
+    public int Offset { get; set; }
+    
+    [JsonPropertyName("limit")]
+    public int Limit { get; set; }
     
     [JsonPropertyName("total_items")]
     public int TotalItems { get; set; }
     
-    [JsonPropertyName("page_number")]
-    public int PageNumber { get; set; }
-    
-    [JsonPropertyName("page_size")]
-    public int PageSize { get; set; }
-    
-    [JsonPropertyName("total_pages")]
-    public int TotalPages => (int)Math.Ceiling((double)TotalItems / PageSize);
+    [JsonPropertyName("items")]
+    public IEnumerable<T> Items { get; set; } = new List<T>();
 }
