@@ -9,6 +9,8 @@ using Parser.Parsing;
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
+builder.Services.AddDistributedMemoryCache();
+builder.Services.AddOutputCache();
 builder.Services.AddSingleton<ITokenParser, CoinMarketCapTokenParser>();
 builder.Services.AddTransient<IMapper<RawToken, TokenEntity>, TokenMapper>();
 builder.Services.AddDbContext<AppDbContext>(options =>
@@ -18,6 +20,7 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 
 var app = builder.Build();
 
+app.UseOutputCache();
 app.UseHttpsRedirection();
 app.UseAuthorization();
 app.MapControllers();
