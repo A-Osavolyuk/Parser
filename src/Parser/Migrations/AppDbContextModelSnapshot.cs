@@ -23,7 +23,7 @@ namespace Parser.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("TEXT");
 
-                    b.Property<decimal>("MarketCap")
+                    b.Property<decimal?>("MarketCap")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Name")

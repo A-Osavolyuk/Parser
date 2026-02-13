@@ -11,7 +11,7 @@ using Parser.Data;
 namespace Parser.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20260213112158_Initial")]
+    [Migration("20260213152310_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -26,7 +26,7 @@ namespace Parser.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("TEXT");
 
-                    b.Property<decimal>("MarketCap")
+                    b.Property<decimal?>("MarketCap")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Name")
@@ -39,6 +39,9 @@ namespace Parser.Migrations
 
                     b.Property<decimal>("Price")
                         .HasColumnType("TEXT");
+
+                    b.Property<int>("Rank")
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("Symbol")
                         .IsRequired()

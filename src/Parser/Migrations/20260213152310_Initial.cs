@@ -16,11 +16,12 @@ namespace Parser.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "TEXT", nullable: false),
+                    Rank = table.Column<int>(type: "INTEGER", nullable: false),
                     Name = table.Column<string>(type: "TEXT", maxLength: 50, nullable: false),
                     Symbol = table.Column<string>(type: "TEXT", maxLength: 50, nullable: false),
                     Price = table.Column<decimal>(type: "TEXT", nullable: false),
-                    MarketCap = table.Column<decimal>(type: "TEXT", nullable: false),
                     PercentChange24H = table.Column<float>(type: "REAL", nullable: false),
+                    MarketCap = table.Column<decimal>(type: "TEXT", nullable: true),
                     Volume24H = table.Column<long>(type: "INTEGER", nullable: true)
                 },
                 constraints: table =>
