@@ -28,12 +28,15 @@ public sealed class TokenMapper : IMapper<RawToken, TokenEntity>
             
         var cleanedPercentChange24H = new StringBuilder(input.PercentChange24H)
             .Replace("%", "")
+            .Replace("<", "")
+            .Replace(">", "")
+            .Replace(".", ",")
             .ToString();
         
         return new TokenEntity()
         {
             Id = Guid.NewGuid(),
-            Rank = int.Parse(cleanedPrice),
+            Rank = int.Parse(input.Rank),
             Name = input.Name,
             Symbol = input.Symbol,
             Price = decimal.Parse(cleanedPrice),
