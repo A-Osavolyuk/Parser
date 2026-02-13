@@ -22,15 +22,19 @@ public sealed class TokenManager(AppDbContext context) : ITokenManager
         var query = _context.Tokens.AsQueryable().Filter(filter);
 
         if (!string.IsNullOrEmpty(searchAfterToken))
+        {
             query = query
                 .OrderBy(x => x.Name)
                 .Where(x => string.Compare(x.Name, searchAfterToken) > 0)
                 .Take(limit);
+        }
         else
+        {
             query = query
                 .ApplyOrdering(orderBy)
                 .Skip(offset)
                 .Take(limit);
+        }
 
         return await query.ToListAsync(cancellationToken);
     }
