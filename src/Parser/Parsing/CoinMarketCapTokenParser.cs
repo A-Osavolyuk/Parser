@@ -8,7 +8,7 @@ public sealed class CoinMarketCapTokenParser(
 {
     private readonly ILogger<CoinMarketCapTokenParser> _logger = logger;
 
-    public async ValueTask<List<RawToken>> ParseAsync(CancellationToken cancellationToken)
+    public async ValueTask<List<RawToken>> ParseAsync(CancellationToken cancellationToken = default)
     {
         var playwright = await Playwright.CreateAsync();
 

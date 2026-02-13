@@ -9,12 +9,13 @@ public sealed class TokenManager(AppDbContext context) : ITokenManager
 {
     private readonly AppDbContext _context = context;
 
-    public async ValueTask<List<TokenEntity>> GetAllAsync(CancellationToken cancellationToken)
+    public async ValueTask<List<TokenEntity>> GetAllAsync(CancellationToken cancellationToken = default)
     {
         return await _context.Tokens.ToListAsync(cancellationToken);
     }
 
-    public async ValueTask<Result> CreateAsync(IEnumerable<TokenEntity> tokens, CancellationToken cancellationToken)
+    public async ValueTask<Result> CreateAsync(IEnumerable<TokenEntity> tokens, 
+        CancellationToken cancellationToken = default)
     {
         await _context.Tokens.AddRangeAsync(tokens, cancellationToken);
         await _context.SaveChangesAsync(cancellationToken);
