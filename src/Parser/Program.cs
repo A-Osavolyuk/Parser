@@ -1,14 +1,21 @@
+using Microsoft.EntityFrameworkCore;
+using Parser.Data;
+using Parser.Data.Extensions;
+
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-
 builder.Services.AddControllers();
-builder.Services.AddOpenApi();
+builder.Services.AddDbContext<AppDbContext>(options =>
+{
+    options.UseSqlite("Data Source=app.db");
+});
 
 var app = builder.Build();
 
-app.MapOpenApi();
 app.UseHttpsRedirection();
 app.UseAuthorization();
 app.MapControllers();
+
+await app.ConfigureDatabaseAsync<AppDbContext>();
+
 app.Run();
