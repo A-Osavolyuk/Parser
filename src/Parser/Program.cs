@@ -5,6 +5,7 @@ using Parser.Data.Extensions;
 using Parser.Mapping;
 using Parser.Models;
 using Parser.Parsing;
+using Parser.Tokens;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,6 +13,7 @@ builder.Services.AddControllers();
 builder.Services.AddDistributedMemoryCache();
 builder.Services.AddOutputCache();
 builder.Services.AddSingleton<ITokenParser, CoinMarketCapTokenParser>();
+builder.Services.AddScoped<ITokenManager, TokenManager>();
 builder.Services.AddTransient<IMapper<RawToken, TokenEntity>, TokenMapper>();
 builder.Services.AddDbContext<AppDbContext>(options =>
 {
