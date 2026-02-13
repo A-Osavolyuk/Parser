@@ -1,10 +1,12 @@
 using Microsoft.EntityFrameworkCore;
 using Parser.Data;
 using Parser.Data.Extensions;
+using Parser.Parsing;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
+builder.Services.AddSingleton<ITokenParser, CoinMarketCapTokenParser>();
 builder.Services.AddDbContext<AppDbContext>(options =>
 {
     options.UseSqlite("Data Source=app.db");
