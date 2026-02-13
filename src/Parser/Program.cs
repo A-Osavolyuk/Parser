@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using Parser.Configurations;
 using Parser.Data;
 using Parser.Data.Entities;
 using Parser.Data.Extensions;
@@ -12,6 +13,8 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 builder.Services.AddDistributedMemoryCache();
 builder.Services.AddOutputCache();
+builder.Services.AddExceptionHandler<GlobalExceptionsHandler>();
+builder.Services.AddProblemDetails();
 builder.Services.AddSingleton<ITokenParser, CoinMarketCapTokenParser>();
 builder.Services.AddScoped<ITokenManager, TokenManager>();
 builder.Services.AddTransient<IMapper<RawToken, TokenEntity>, TokenMapper>();
@@ -22,9 +25,9 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 
 var app = builder.Build();
 
+app.UseExceptionHandler();
 app.UseOutputCache();
 app.UseHttpsRedirection();
-app.UseAuthorization();
 app.MapControllers();
 
 await app.ConfigureDatabaseAsync<AppDbContext>();
