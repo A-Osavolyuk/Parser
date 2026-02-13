@@ -35,8 +35,8 @@ public sealed class CoinMarketCapTokenParser(
                     .forEach(el => el.removeAttribute('style'));
             }");
         
-        _logger.LogInformation("Setting page zoom to 1%");
-        await page.EvaluateAsync("() => { document.body.style.zoom = '10%'; }");
+        _logger.LogInformation("Setting page zoom to 5%");
+        await page.EvaluateAsync("() => { document.body.style.zoom = '5%'; }");
 
         _logger.LogInformation("Selecting source rows");
         await page.WaitForSelectorAsync("tbody tr.cmc-table-row");
@@ -57,9 +57,9 @@ public sealed class CoinMarketCapTokenParser(
                     
                     var rank = await row
                         .Locator("td.cmc-table__cell--sort-by__rank")
-                        .InnerTextAsync(new LocatorInnerTextOptions { Timeout = 2000 });
+                        .InnerTextAsync(new LocatorInnerTextOptions { Timeout = 5000 });
 
-                    if (!seen.Add(rank))
+                    if (!seen.Add(rank) || int.Parse(rank) < rawTokens.Count)
                         continue;
 
                     newRows++;
@@ -70,14 +70,17 @@ public sealed class CoinMarketCapTokenParser(
                         .InnerTextAsync();
 
                     string? marketCap;
-                    try
+                    if (await row
+                            .Locator("td.cmc-table__cell--sort-by__market-cap")
+                            .Locator("span[data-nosnippet='true']")
+                            .IsVisibleAsync())
                     {
                         marketCap = await row
                             .Locator("td.cmc-table__cell--sort-by__market-cap")
                             .Locator("span[data-nosnippet='true']")
                             .InnerTextAsync();
                     }
-                    catch (Exception e)
+                    else
                     {
                         marketCap = null;
                     }
