@@ -37,7 +37,7 @@ public sealed class TokenMapper : IMapper<RawToken, TokenEntity>
             Name = input.Name,
             Symbol = input.Symbol,
             Price = decimal.Parse(cleanedPrice),
-            MarketCap = decimal.Parse(cleanedMarketCap),
+            MarketCap = decimal.TryParse(cleanedMarketCap, out var marketCap) ? marketCap : null,
             PercentChange24H = float.Parse(cleanedPercentChange24H),
             Volume24H = long.TryParse(cleanedVolume24H, out var volume) ? volume : null,
         };

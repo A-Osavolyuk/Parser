@@ -23,9 +23,6 @@ public sealed class CoinMarketCapTokenParser(
         _logger.LogInformation("Navigating to source page");
         await page.GotoAsync("https://coinmarketcap.com/all/views/all");
         
-        _logger.LogInformation("Setting page zoom to 1%");
-        await page.EvaluateAsync("() => { document.body.style.zoom = '1%'; }");
-        
         _logger.LogInformation("Cleaning-up redundant styling on page");
         await page.EvaluateAsync(@"
             () => {
@@ -37,6 +34,9 @@ public sealed class CoinMarketCapTokenParser(
                 document.querySelectorAll('*')
                     .forEach(el => el.removeAttribute('style'));
             }");
+        
+        _logger.LogInformation("Setting page zoom to 1%");
+        await page.EvaluateAsync("() => { document.body.style.zoom = '10%'; }");
 
         _logger.LogInformation("Selecting source rows");
         await page.WaitForSelectorAsync("tbody tr.cmc-table-row");
@@ -68,11 +68,19 @@ public sealed class CoinMarketCapTokenParser(
                         .Locator("td.cmc-table__cell--sort-by__name")
                         .Locator("div a.cmc-table__column-name--name.cmc-link")
                         .InnerTextAsync();
-                    
-                    var marketCap = await row
-                        .Locator("td.cmc-table__cell--sort-by__market-cap")
-                        .Locator("span[data-nosnippet='true']")
-                        .InnerTextAsync();
+
+                    string? marketCap;
+                    try
+                    {
+                        marketCap = await row
+                            .Locator("td.cmc-table__cell--sort-by__market-cap")
+                            .Locator("span[data-nosnippet='true']")
+                            .InnerTextAsync();
+                    }
+                    catch (Exception e)
+                    {
+                        marketCap = null;
+                    }
             
                     var volume24H = await row.Locator("td.cmc-table__cell--sort-by__volume-24-h")
                         .InnerTextAsync();
@@ -121,6 +129,8 @@ public sealed class CoinMarketCapTokenParser(
 
             await button.ClickAsync();
             await page.WaitForTimeoutAsync(2000);
+            
+            _logger.LogInformation("Successfully proceeded {rowsCount} rows", rawTokens.Count);
         }
 
         _logger.LogInformation("Source rows were successfully proceeded");
