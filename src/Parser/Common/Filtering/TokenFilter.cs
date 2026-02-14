@@ -1,4 +1,4 @@
-﻿namespace Parser.Filtering;
+﻿namespace Parser.Common.Filtering;
 
 public sealed class TokenFilter
 {

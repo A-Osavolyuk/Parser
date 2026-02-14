@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Diagnostics;
-using Parser.Results;
+using Parser.Common.Results;
 
 namespace Parser.Configurations;
 

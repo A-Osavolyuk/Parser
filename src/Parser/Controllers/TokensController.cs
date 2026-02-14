@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.OutputCaching;
-using Parser.Filtering;
-using Parser.Tokens;
+using Parser.Common.Filtering;
+using Parser.Services;
 
 namespace Parser.Controllers;
 

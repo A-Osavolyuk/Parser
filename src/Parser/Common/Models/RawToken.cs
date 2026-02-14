@@ -1,4 +1,4 @@
-﻿namespace Parser.Models;
+﻿namespace Parser.Common.Models;
 
 public sealed class RawToken
 {

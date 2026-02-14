@@ -1,11 +1,11 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Parser.Common.Extensions;
+using Parser.Common.Filtering;
+using Parser.Common.Results;
 using Parser.Data;
 using Parser.Data.Entities;
-using Parser.Extensions;
-using Parser.Filtering;
-using Parser.Results;
 
-namespace Parser.Tokens;
+namespace Parser.Services;
 
 public sealed class TokenManager(AppDbContext context) : ITokenManager
 {

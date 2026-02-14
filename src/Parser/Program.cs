@@ -1,14 +1,14 @@
 using Microsoft.EntityFrameworkCore;
 using Parser;
+using Parser.Common.Models;
+using Parser.Common.Parsing;
 using Parser.Configurations;
 using Parser.Data;
 using Parser.Data.Entities;
 using Parser.Data.Extensions;
 using Parser.Mapping;
 using Parser.Mediator;
-using Parser.Models;
-using Parser.Parsing;
-using Parser.Tokens;
+using Parser.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 

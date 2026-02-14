@@ -1,8 +1,8 @@
-﻿using Parser.Data.Entities;
-using Parser.Filtering;
-using Parser.Results;
+﻿using Parser.Common.Filtering;
+using Parser.Common.Results;
+using Parser.Data.Entities;
 
-namespace Parser.Tokens;
+namespace Parser.Services;
 
 public interface ITokenManager
 {

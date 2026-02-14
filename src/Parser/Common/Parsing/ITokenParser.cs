@@ -1,6 +1,6 @@
-﻿using Parser.Models;
+﻿using Parser.Common.Models;
 
-namespace Parser.Parsing;
+namespace Parser.Common.Parsing;
 
 public interface ITokenParser
 {

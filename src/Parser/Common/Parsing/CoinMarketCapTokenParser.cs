@@ -1,7 +1,7 @@
 ﻿using Microsoft.Playwright;
-using Parser.Models;
+using Parser.Common.Models;
 
-namespace Parser.Parsing;
+namespace Parser.Common.Parsing;
 
 public sealed class CoinMarketCapTokenParser(
     ILogger<CoinMarketCapTokenParser> logger) : ITokenParser

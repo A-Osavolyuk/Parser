@@ -1,6 +1,6 @@
 ﻿using System.Text;
+using Parser.Common.Models;
 using Parser.Data.Entities;
-using Parser.Models;
 
 namespace Parser.Mapping;
 

@@ -1,6 +1,6 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace Parser.Results;
+namespace Parser.Common.Results;
 
 public sealed class Error
 {

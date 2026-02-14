@@ -1,10 +1,10 @@
 ﻿using System.Linq.Expressions;
 using System.Reflection;
 using System.Text;
+using Parser.Common.Filtering;
 using Parser.Data.Entities;
-using Parser.Filtering;
 
-namespace Parser.Extensions;
+namespace Parser.Common.Extensions;
 
 public static class QueryableExtensions
 {
