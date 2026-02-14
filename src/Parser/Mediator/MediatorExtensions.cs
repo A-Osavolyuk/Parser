@@ -4,7 +4,7 @@ public static class MediatorExtensions
 {
     public static void AddMediator<TMarker>(this IServiceCollection services)
     {
-        services.AddSingleton<ISender, Sender>();
+        services.AddScoped<ISender, Sender>();
         
         var types = typeof(TMarker).Assembly.GetTypes()
             .Where(x => x is { IsAbstract: false, IsInterface: false });
