@@ -1,7 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Parser.Common.Extensions;
-using Parser.Common.Filtering;
-using Parser.Common.Results;
 using Parser.Data;
 using Parser.Data.Entities;
 
@@ -10,6 +8,11 @@ namespace Parser.Services;
 public sealed class TokenManager(AppDbContext context) : ITokenManager
 {
     private readonly AppDbContext _context = context;
+
+    public async ValueTask<bool> AnyAsync(CancellationToken cancellationToken = default)
+    {
+        return await _context.Tokens.AnyAsync(cancellationToken);
+    }
 
     public async ValueTask<List<TokenEntity>> GetByQueryAsync(
         TokenFilter filter,

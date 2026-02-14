@@ -1,15 +1,14 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.OutputCaching;
-using Parser.Common.Filtering;
-using Parser.Services;
+using Parser.Features.Tokens.Queries;
 
 namespace Parser.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
-public sealed class TokensController(ITokenManager tokenManager) : ControllerBase
+public sealed class TokensController(ISender sender) : ControllerBase
 {
-    private readonly ITokenManager _tokenManager = tokenManager;
+    private readonly ISender _sender = sender;
 
     [HttpGet]
     [OutputCache(Duration = 60)]
@@ -20,9 +19,7 @@ public sealed class TokensController(ITokenManager tokenManager) : ControllerBas
         [FromQuery(Name = "offset")] int offset = 0,
         [FromQuery(Name = "limit")] int limit = 100)
     {
-        var tokens = await _tokenManager.GetByQueryAsync(
-            filter, offset, limit, orderBy, searchAfterToken);
-
-        return Ok(tokens);
+        var result = await _sender.SendAsync(new GetTokensQuery(filter, offset, limit, orderBy, searchAfterToken));
+        return result.IsSucceeded ? Ok(result.Value) : StatusCode(500, result.GetError());
     }
 }
